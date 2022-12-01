@@ -12,7 +12,7 @@ class Form extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      hasTrunfo,
+      // hasTrunfo,
       isSaveButtonDisabled,
       onInputChange,
       onSaveButtonClick,
@@ -112,7 +112,6 @@ class Form extends React.Component {
         <button
           type="submit"
           data-testid="save-button"
-          value="save"
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
         >
@@ -131,9 +130,9 @@ Form.propTypes = {
   cardAttr3: PropTypes.string,
   cardImage: PropTypes.string,
   cardRare: PropTypes.string,
-  cardTrunfo: PropTypes.boolean,
+  cardTrunfo: PropTypes.bool,
   hasTrunfo: PropTypes.boolean,
-  isSaveButtonDisabled: PropTypes.boolean,
+  isSaveButtonDisabled: PropTypes.bool,
   onInputChange: PropTypes.func,
   onSaveButtonClick: PropTypes.func,
 }.isRequired;
