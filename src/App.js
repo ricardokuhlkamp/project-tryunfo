@@ -16,8 +16,12 @@ class App extends React.Component {
     isSaveButtonDisabled: false,
   };
 
-  onInputChange = () => {
-
+  onInputChange = ({ target }) => {
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
+    this.setState({
+      [name]: value,
+    });
   };
 
   onSaveButtonClick = () => {
