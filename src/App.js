@@ -96,6 +96,15 @@ class App extends React.Component {
     }));
   };
 
+  deleteCardBtn = (index) => {
+    const { savedCards } = this.state;
+    savedCards.splice(index, 1);
+    this.setState({
+      savedCards,
+      hasTrunfo: false,
+    });
+  };
+
   render() {
     const { savedCards } = this.state;
 
@@ -108,8 +117,17 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
-        { savedCards.map((card, index) => (
-          <Card key={ index } { ...card } />
+        { savedCards.map((card) => (
+          <>
+            <Card key={ card.cardName } { ...card } />
+            <button
+              type="button"
+              data-testid="delete-button"
+              onClick={ this.deleteCardBtn }
+            >
+              Excluir
+            </button>
+          </>
         ))}
       </div>
     );
