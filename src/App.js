@@ -25,6 +25,7 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
+      cardTrunfo,
     } = this.state;
     const textValidate = cardName.length > 0
       && cardDescription.length > 0
@@ -47,12 +48,18 @@ class App extends React.Component {
         && cardAttr2Validate
         && cardAttr3Validate),
     });
+    const trunfoValidate = cardTrunfo === true;
+    this.setState({
+      hasTrunfo: trunfoValidate,
+    });
   };
 
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ [name]: value }, this.valida);
+    this.setState({
+      [name]: value,
+    }, this.valida);
   };
 
   onSaveButtonClick = (event) => {
