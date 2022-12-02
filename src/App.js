@@ -67,9 +67,23 @@ class App extends React.Component {
     const {
       cardName,
       cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
       cardImage,
+      cardRare,
+      cardTrunfo,
     } = this.state;
-    const newCard = { cardName, cardDescription, cardImage };
+    const newCard = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
     this.setState((prevCard) => ({
       savedCards: [...prevCard.savedCards, newCard],
       cardName: '',
@@ -83,7 +97,7 @@ class App extends React.Component {
   };
 
   render() {
-    // const { ...state } = this.state;
+    const { savedCards } = this.state;
 
     return (
       <div>
@@ -93,9 +107,9 @@ class App extends React.Component {
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
         />
-        <Card
-          { ...this.state }
-        />
+        { savedCards.map((card, index) => (
+          <Card key={ index } { ...card } />
+        ))}
       </div>
     );
   }
