@@ -15,6 +15,8 @@ class App extends React.Component {
     hasTrunfo: false,
     isSaveButtonDisabled: true,
     savedCards: [],
+    filterCardName: '',
+    searchCardName: false,
   };
 
   valida = () => {
@@ -105,8 +107,23 @@ class App extends React.Component {
     });
   };
 
+  confere = () => {
+    const { searchCardName } = this.state;
+    const temBusca = searchCardName === true;
+    this.setState({
+      searchCardName: temBusca,
+    });
+  };
+
+  handleFilterCardName = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    }, this.confere);
+  };
+
   render() {
-    const { savedCards } = this.state;
+    const { savedCards, filterCardName } = this.state;
 
     return (
       <div>
@@ -117,9 +134,22 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
-        { savedCards.map((card) => (
+        <label htmlFor="filterCardName">
+          Pesquisa por cardName
+          <input
+            data-testid="name-filter"
+            id="filterCardName"
+            type="text"
+            name="filterCardName"
+            value={ filterCardName }
+            onChange={ this.handleFilterCardName }
+          />
+        </label>
+        {savedCards.filter((savedCard) => (
+          savedCard.cardName.includes(filterCardName)
+        )).map((card2) => (
           <>
-            <Card key={ card.cardName } { ...card } />
+            <Card key={ card2.cardName } { ...card2 } />
             <button
               type="button"
               data-testid="delete-button"

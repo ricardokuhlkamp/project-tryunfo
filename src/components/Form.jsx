@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './Form.module.css';
 
 class Form extends React.Component {
   render() {
@@ -18,7 +19,7 @@ class Form extends React.Component {
       onSaveButtonClick,
     } = this.props;
     return (
-      <form>
+      <form className={ styles.form }>
         <label htmlFor="cardName">
           Nome
           <input
@@ -114,6 +115,7 @@ class Form extends React.Component {
             <p>Você já tem um Super Trunfo em seu baralho</p>
           )}
         <button
+          className={ styles.buttonSalvar }
           type="submit"
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
