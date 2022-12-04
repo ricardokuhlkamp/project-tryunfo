@@ -16,7 +16,7 @@ class App extends React.Component {
     isSaveButtonDisabled: true,
     savedCards: [],
     filterCardName: '',
-    searchCardName: false,
+    filterRareCards: 'todas',
   };
 
   valida = () => {
@@ -107,23 +107,15 @@ class App extends React.Component {
     });
   };
 
-  confere = () => {
-    const { searchCardName } = this.state;
-    const temBusca = searchCardName === true;
-    this.setState({
-      searchCardName: temBusca,
-    });
-  };
-
-  handleFilterCardName = ({ target }) => {
+  handleFilterCard = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
-    }, this.confere);
+    });
   };
 
   render() {
-    const { savedCards, filterCardName } = this.state;
+    const { savedCards, filterCardName, filterRareCards } = this.state;
 
     return (
       <div>
@@ -134,19 +126,37 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card { ...this.state } />
-        <label htmlFor="filterCardName">
-          Pesquisa por cardName
-          <input
-            data-testid="name-filter"
-            id="filterCardName"
-            type="text"
-            name="filterCardName"
-            value={ filterCardName }
-            onChange={ this.handleFilterCardName }
-          />
-        </label>
+        <div>
+          <label htmlFor="filterCardName">
+            Pesquisa por cardName
+            <input
+              data-testid="name-filter"
+              id="filterCardName"
+              type="text"
+              name="filterCardName"
+              value={ filterCardName }
+              onChange={ this.handleFilterCard }
+            />
+          </label>
+          <label htmlFor="filterRareCards">
+            <select
+              id="filterRareCards"
+              name="filterRareCards"
+              data-testid="rare-filter"
+              value={ filterRareCards }
+              onChange={ this.handleFilterCard }
+            >
+              <option key="allCards">todas</option>
+              <option key="nomalCards">normal</option>
+              <option key="rareCards">raro</option>
+              <option key="veryRareCards">muito raro</option>
+            </select>
+          </label>
+        </div>
         {savedCards.filter((savedCard) => (
           savedCard.cardName.includes(filterCardName)
+          && (filterRareCards !== 'todas' ? (savedCard
+            .cardRare === filterRareCards) : (savedCard.cardRare))
         )).map((card2) => (
           <>
             <Card key={ card2.cardName } { ...card2 } />
