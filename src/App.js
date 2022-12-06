@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './components/Card';
 import Form from './components/Form';
+import styles from './components/App.module.css';
 
 class App extends React.Component {
   state = {
@@ -189,24 +190,26 @@ class App extends React.Component {
             />
           </label>
         </div>
-        { savedCards.filter((savedCard) => (
-          savedCard.cardName.includes(filterCardName)
-          && (filterRareCards !== 'todas' ? (savedCard
-            .cardRare === filterRareCards) : (savedCard.cardRare))
-              && (filterSuperTrunfo ? (savedCard
-                .cardTrunfo) : ({}))
-        )).map((card2) => (
-          <>
-            <Card key={ card2.cardName } { ...card2 } />
-            <button
-              type="button"
-              data-testid="delete-button"
-              onClick={ this.deleteCardBtn }
-            >
-              Excluir
-            </button>
-          </>
-        )) }
+        <div className={ styles.containerCards }>
+          { savedCards.filter((savedCard) => (
+            savedCard.cardName.includes(filterCardName)
+            && (filterRareCards !== 'todas' ? (savedCard
+              .cardRare === filterRareCards) : (savedCard.cardRare))
+            && (filterSuperTrunfo ? (savedCard
+              .cardTrunfo) : ({}))
+          )).map((card) => (
+            <div key={ card.cardName }>
+              <Card { ...card } />
+              <button
+                type="button"
+                data-testid="delete-button"
+                onClick={ this.deleteCardBtn }
+              >
+                Excluir
+              </button>
+            </div>
+          )) }
+        </div>
       </div>
     );
   }

@@ -1,9 +1,11 @@
 .card {
   align-items: initial;
-  border: solid 2px green;
+  background-color: rgb(2, 62, 138);
+  border: solid 2px white;
   border-radius: 5px;
+  color: rgb(254, 250, 224);
   display: flex;
   flex-direction: column;
-  max-width: 200px;
   padding: 5px;
+  width: 200px;
 }
