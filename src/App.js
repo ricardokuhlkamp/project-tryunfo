@@ -17,6 +17,8 @@ class App extends React.Component {
     savedCards: [],
     filterCardName: '',
     filterRareCards: 'todas',
+    filterSuperTrunfo: false,
+    isFilterBtnSuperTrunfoDisabled: false,
   };
 
   valida = () => {
@@ -27,7 +29,6 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
-      cardTrunfo,
     } = this.state;
     const textValidate = cardName.length > 0
       && cardDescription.length > 0
@@ -49,10 +50,6 @@ class App extends React.Component {
         && cardAttr1Validate
         && cardAttr2Validate
         && cardAttr3Validate),
-    });
-    const trunfoValidate = cardTrunfo === true;
-    this.setState({
-      hasTrunfo: trunfoValidate,
     });
   };
 
@@ -86,6 +83,11 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
     };
+    if (cardTrunfo) {
+      this.setState({
+        hasTrunfo: true,
+      });
+    }
     this.setState((prevCard) => ({
       savedCards: [...prevCard.savedCards, newCard],
       cardName: '',
@@ -95,6 +97,7 @@ class App extends React.Component {
       cardAttr3: '0',
       cardImage: '',
       cardRare: 'normal',
+      cardTrunfo: false,
     }));
   };
 
@@ -108,14 +111,34 @@ class App extends React.Component {
   };
 
   handleFilterCard = ({ target }) => {
-    const { name, value } = target;
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
-    });
+    }, () => this.desabilitaSelect());
+  };
+
+  desabilitaSelect = () => {
+    const { filterSuperTrunfo } = this.state;
+    if (filterSuperTrunfo) {
+      this.setState({
+        isFilterBtnSuperTrunfoDisabled: true,
+      });
+    } else {
+      this.setState({
+        isFilterBtnSuperTrunfoDisabled: false,
+      });
+    }
   };
 
   render() {
-    const { savedCards, filterCardName, filterRareCards } = this.state;
+    const {
+      savedCards,
+      filterCardName,
+      filterRareCards,
+      filterSuperTrunfo,
+      isFilterBtnSuperTrunfoDisabled,
+    } = this.state;
 
     return (
       <div>
@@ -136,6 +159,7 @@ class App extends React.Component {
               name="filterCardName"
               value={ filterCardName }
               onChange={ this.handleFilterCard }
+              disabled={ isFilterBtnSuperTrunfoDisabled }
             />
           </label>
           <label htmlFor="filterRareCards">
@@ -145,6 +169,7 @@ class App extends React.Component {
               data-testid="rare-filter"
               value={ filterRareCards }
               onChange={ this.handleFilterCard }
+              disabled={ isFilterBtnSuperTrunfoDisabled }
             >
               <option key="allCards">todas</option>
               <option key="nomalCards">normal</option>
@@ -152,11 +177,24 @@ class App extends React.Component {
               <option key="veryRareCards">muito raro</option>
             </select>
           </label>
+          <label htmlFor="filterSuperTrunfo">
+            Super Trunfo
+            <input
+              id="filterSuperTrunfo"
+              type="checkbox"
+              data-testid="trunfo-filter"
+              name="filterSuperTrunfo"
+              checked={ filterSuperTrunfo }
+              onChange={ this.handleFilterCard }
+            />
+          </label>
         </div>
-        {savedCards.filter((savedCard) => (
+        { savedCards.filter((savedCard) => (
           savedCard.cardName.includes(filterCardName)
           && (filterRareCards !== 'todas' ? (savedCard
             .cardRare === filterRareCards) : (savedCard.cardRare))
+              && (filterSuperTrunfo ? (savedCard
+                .cardTrunfo) : ({}))
         )).map((card2) => (
           <>
             <Card key={ card2.cardName } { ...card2 } />
@@ -168,7 +206,7 @@ class App extends React.Component {
               Excluir
             </button>
           </>
-        ))}
+        )) }
       </div>
     );
   }
