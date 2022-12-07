@@ -102,13 +102,19 @@ class App extends React.Component {
     }));
   };
 
-  deleteCardBtn = (index) => {
+  deleteCardBtn = (name, trunfo) => {
     const { savedCards } = this.state;
-    savedCards.splice(index, 1);
-    this.setState({
-      savedCards,
-      hasTrunfo: false,
-    });
+    const novoArray = savedCards.filter((card) => card.cardName !== name);
+    if (trunfo) {
+      this.setState({
+        savedCards: novoArray,
+        hasTrunfo: false,
+      });
+    } else {
+      this.setState({
+        savedCards: novoArray,
+      });
+    }
   };
 
   handleFilterCard = ({ target }) => {
@@ -203,7 +209,7 @@ class App extends React.Component {
               <button
                 type="button"
                 data-testid="delete-button"
-                onClick={ this.deleteCardBtn }
+                onClick={ () => this.deleteCardBtn(card.cardName, card.cardTrunfo) }
               >
                 Excluir
               </button>
