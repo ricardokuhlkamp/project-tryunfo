@@ -28,9 +28,21 @@ class Card extends React.Component {
         >
           { cardDescription }
         </p>
-        <p data-testid="attr1-card">{ cardAttr1 }</p>
-        <p data-testid="attr2-card">{ cardAttr2 }</p>
-        <p data-testid="attr3-card">{ cardAttr3 }</p>
+        <p data-testid="attr1-card">
+          { cardAttr1 }
+          {' '}
+          anos
+        </p>
+        <p data-testid="attr2-card">
+          { cardAttr2 }
+          {' '}
+          ton
+        </p>
+        <p data-testid="attr3-card">
+          { cardAttr3 }
+          {' '}
+          metros
+        </p>
         <p data-testid="rare-card">{ cardRare }</p>
         { cardTrunfo && (<p data-testid="trunfo-card">Super Trunfo</p>)}
       </div>

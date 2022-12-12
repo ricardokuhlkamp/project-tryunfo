@@ -1,6 +1,7 @@
 .form {
   align-items: initial;
-  border: solid 2px red;
+  background-color: rgb(106, 153, 78);
+  border: solid 2px white;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -10,4 +11,8 @@
 
 .buttonSalvar {
   width: 60px;
+}
+
+.inputStyles {
+  border-radius: 5px;
 }

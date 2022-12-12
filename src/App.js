@@ -20,6 +20,8 @@ class App extends React.Component {
     filterRareCards: 'todas',
     filterSuperTrunfo: false,
     isFilterBtnSuperTrunfoDisabled: false,
+    randomCards: [],
+    positionCard: 0,
   };
 
   valida = () => {
@@ -57,9 +59,7 @@ class App extends React.Component {
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({
-      [name]: value,
-    }, this.valida);
+    this.setState({ [name]: value }, this.valida);
   };
 
   onSaveButtonClick = (event) => {
@@ -85,9 +85,7 @@ class App extends React.Component {
       cardTrunfo,
     };
     if (cardTrunfo) {
-      this.setState({
-        hasTrunfo: true,
-      });
+      this.setState({ hasTrunfo: true });
     }
     this.setState((prevCard) => ({
       savedCards: [...prevCard.savedCards, newCard],
@@ -106,36 +104,43 @@ class App extends React.Component {
     const { savedCards } = this.state;
     const novoArray = savedCards.filter((card) => card.cardName !== name);
     if (trunfo) {
-      this.setState({
-        savedCards: novoArray,
-        hasTrunfo: false,
-      });
+      this.setState({ savedCards: novoArray, hasTrunfo: false });
     } else {
-      this.setState({
-        savedCards: novoArray,
-      });
+      this.setState({ savedCards: novoArray });
     }
   };
 
   handleFilterCard = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({
-      [name]: value,
-    }, () => this.desabilitaSelect());
+    this.setState({ [name]: value }, () => this.desabilitaSelect());
   };
 
   desabilitaSelect = () => {
     const { filterSuperTrunfo } = this.state;
     if (filterSuperTrunfo) {
-      this.setState({
-        isFilterBtnSuperTrunfoDisabled: true,
-      });
+      this.setState({ isFilterBtnSuperTrunfoDisabled: true });
     } else {
-      this.setState({
-        isFilterBtnSuperTrunfoDisabled: false,
-      });
+      this.setState({ isFilterBtnSuperTrunfoDisabled: false });
     }
+  };
+
+  randomCardsFunc = () => {
+    const n = 0.5;
+    const { savedCards } = this.state;
+    const arrayCopy = [...savedCards];
+    this.setState({ randomCards: arrayCopy.sort(() => Math.random() - n) });
+  };
+
+  nextCard = () => {
+    this.setState((prevState) => ({ positionCard: prevState.positionCard + 1 }));
+  };
+
+  inicioIndex = () => {
+    const n = 0.5;
+    this.setState((prevState) => ({ positionCard: 0,
+      randomCards: prevState.randomCards.sort(() => Math.random() - n),
+    }));
   };
 
   render() {
@@ -145,19 +150,24 @@ class App extends React.Component {
       filterRareCards,
       filterSuperTrunfo,
       isFilterBtnSuperTrunfoDisabled,
+      randomCards,
+      positionCard,
     } = this.state;
 
     return (
       <div>
         <h1>Tryunfo</h1>
-        <Form
-          { ...this.state }
-          onInputChange={ this.onInputChange }
-          onSaveButtonClick={ this.onSaveButtonClick }
-        />
-        <Card { ...this.state } />
-        <div>
-          <label htmlFor="filterCardName">
+        <h2>Crie suas cartas e vamos jogar!</h2>
+        <div className={ styles.containerCreateAndPre }>
+          <Form
+            { ...this.state }
+            onInputChange={ this.onInputChange }
+            onSaveButtonClick={ this.onSaveButtonClick }
+          />
+          <Card { ...this.state } />
+        </div>
+        <div className={ styles.containerSearch }>
+          <label htmlFor="filterCardName" className={ styles.labelStyles }>
             Pesquisa por cardName
             <input
               data-testid="name-filter"
@@ -169,7 +179,7 @@ class App extends React.Component {
               disabled={ isFilterBtnSuperTrunfoDisabled }
             />
           </label>
-          <label htmlFor="filterRareCards">
+          <label htmlFor="filterRareCards" className={ styles.labelStyles }>
             <select
               id="filterRareCards"
               name="filterRareCards"
@@ -184,7 +194,7 @@ class App extends React.Component {
               <option key="veryRareCards">muito raro</option>
             </select>
           </label>
-          <label htmlFor="filterSuperTrunfo">
+          <label htmlFor="filterSuperTrunfo" className={ styles.labelStyles }>
             Super Trunfo
             <input
               id="filterSuperTrunfo"
@@ -215,6 +225,22 @@ class App extends React.Component {
               </button>
             </div>
           )) }
+        </div>
+        <div className={ styles.containerCardPlay }>
+          { randomCards && randomCards
+            .filter((_card, indice) => (indice === positionCard))
+            .map((card) => (
+              <div key={ card.name }>
+                <Card { ...card } />
+              </div>
+            )) }
+        </div>
+        <div className={ styles.playBtns }>
+          <button type="button" onClick={ this.randomCardsFunc }>Jogar</button>
+          { positionCard > randomCards.length - 1 ? (
+            <button type="button" onClick={ this.inicioIndex }>Embaralhar cartas</button>)
+            : (<button type="button" onClick={ this.nextCard }>Próxima carta</button>
+            ) }
         </div>
       </div>
     );

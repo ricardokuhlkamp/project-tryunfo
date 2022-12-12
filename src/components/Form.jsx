@@ -29,6 +29,7 @@ class Form extends React.Component {
             name="cardName"
             value={ cardName }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardDescription">
@@ -39,10 +40,13 @@ class Form extends React.Component {
             name="cardDescription"
             value={ cardDescription }
             onChange={ onInputChange }
+            cols="20"
+            rows="5"
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardAttr1">
-          Atributo-01
+          longevidade em anos
           <input
             type="number"
             data-testid="attr1-input"
@@ -50,10 +54,11 @@ class Form extends React.Component {
             name="cardAttr1"
             value={ cardAttr1 }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardAttr2">
-          Atributo-02
+          peso em toneladas
           <input
             type="number"
             data-testid="attr2-input"
@@ -61,10 +66,11 @@ class Form extends React.Component {
             name="cardAttr2"
             value={ cardAttr2 }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardAttr3">
-          Atributo-03
+          comprimento em metros
           <input
             type="number"
             data-testid="attr3-input"
@@ -72,10 +78,11 @@ class Form extends React.Component {
             name="cardAttr3"
             value={ cardAttr3 }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardImage">
-          URL - imagem
+          Foto
           <input
             type="text"
             data-testid="image-input"
@@ -83,6 +90,7 @@ class Form extends React.Component {
             name="cardImage"
             value={ cardImage }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           />
         </label>
         <label htmlFor="cardRare">
@@ -93,6 +101,7 @@ class Form extends React.Component {
             name="cardRare"
             value={ cardRare }
             onChange={ onInputChange }
+            className={ styles.inputStyles }
           >
             <option key="normal">normal</option>
             <option key="raro">raro</option>

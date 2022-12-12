@@ -1,4 +1,35 @@
+body {
+  background-image: url('AdobeStock_411787856.jpeg');
+  background-size: contain;
+}
+
+h1, h2 {
+  color: rgb(167, 201, 87);
+  text-align: center;
+  -webkit-text-stroke-color: rgb(173, 185, 144);
+  -webkit-text-stroke-width: 1px;
+}
+
 .containerCards {
   display: flex;
   flex-wrap: wrap;
+}
+
+.containerCreateAndPre, .containerSearch, .playBtns, .containerCards, .containerCardPlay {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.containerSearch {
+  background-color: rgb(167, 201, 87);
+  border: solid 2px white;
+  padding: 5px;
+}
+
+.labelStyles {
+  margin-left: 5px;
+  margin-right: 5px;
 }

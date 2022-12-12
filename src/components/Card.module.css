@@ -1,11 +1,12 @@
 .card {
   align-items: initial;
-  background-color: rgb(2, 62, 138);
+  background-color: rgb(106, 153, 78);
   border: solid 2px white;
   border-radius: 5px;
   color: rgb(254, 250, 224);
   display: flex;
   flex-direction: column;
+  margin-right: 5px;
   padding: 5px;
   width: 200px;
 }
